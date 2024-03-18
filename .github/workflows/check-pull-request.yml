@@ -8,6 +8,8 @@ jobs:
   # Check that only webgpu.yml is affected by the PR
   check:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3
 
