@@ -18,6 +18,7 @@ jobs:
 
       - id: test
         run: |
+          git fetch origin/main
           CHANGED_FILES=$(git diff origin/main HEAD --numstat | cut -f3-)
           if [ "$CHANGED_FILES" = "webgpu.yml" ]
           then
