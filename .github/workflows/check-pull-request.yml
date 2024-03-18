@@ -27,7 +27,8 @@ jobs:
             echo "summary=This PR only modified webgpu.yml, as expected." >> "$GITHUB_OUTPUT"
             exit 0
           else
-            echo "summary=Only webgpu.yml is allowed to be modified, but the following files were found in the diff:$CHANGED_FILES" >> "$GITHUB_OUTPUT"
+            FMT=$(echo "$CHANGED_FILES" | sed -r "s/$/\\\\n/" | tr --delete "\n")
+            echo "summary=Only webgpu.yml is allowed to be modified, but the following files were found in the diff:$FMT" >> "$GITHUB_OUTPUT"
             exit 1
           fi
 
