@@ -14,12 +14,14 @@ jobs:
       checks: write
       contents: read
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - id: test
         run: |
           git fetch origin main
-          CHANGED_FILES=$(git diff origin main HEAD --numstat | cut -f3-)
+          CHANGED_FILES=$(git diff origin/main HEAD --numstat | cut -f3-)
           if [ "$CHANGED_FILES" = "webgpu.yml" ]
           then
             echo "summary=This PR only modified webgpu.yml, as expected." >> "$GITHUB_OUTPUT"
