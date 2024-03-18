@@ -20,6 +20,10 @@ on:
 jobs:
   automerge:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      checks: write
+      contents: read
     steps:
       - id: automerge
         name: automerge
