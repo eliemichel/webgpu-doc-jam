@@ -9,11 +9,14 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - uses: actions/create-outputs@v0.0.0-fake
-        id: test
+      - id: test
+        run: |
+          echo "summary=There was a validation error" >> "$GITHUB_OUTPUT"
+          exit 1
+
+      # Report previous step outcome as a GitHub Check for the PR
       - uses: LouisBrunner/checks-action@v2.0.0
         if: always()
         with:
