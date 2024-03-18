@@ -37,7 +37,7 @@ jobs:
         if: always()
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          name: Only webgpu.yml is modified
+          name: "Click 'Details' for more information ->"
           conclusion: ${{ job.status }}
           output: |
             { "summary":"${{ steps.test.outputs.summary }}" }
