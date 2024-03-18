@@ -3,6 +3,8 @@ copyright: |
 
   SPDX-License-Identifier: BSD-3-Clause
 
+  Test2
+
 name: webgpu
 enum_prefix: '0x0000'
 

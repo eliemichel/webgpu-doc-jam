@@ -7,23 +7,37 @@ on:
 jobs:
   # Check that only webgpu.yml is affected by the PR
   check:
+    name: Check that only webgpu.yml is modified
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+      checks: write
+      contents: read
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
 
       - id: test
         run: |
-          echo "summary=There was a validation error" >> "$GITHUB_OUTPUT"
-          exit 1
+          CHANGED_FILES=$(git diff origin/main HEAD --numstat | cut -f3-)
+          if [ "$CHANGED_FILES" = "webgpu.yml" ]
+          then
+            echo "summary=This PR only modified webgpu.yml, as expected." >> "$GITHUB_OUTPUT"
+            exit 0
+          else
+            FMT=$(echo "$CHANGED_FILES" | sed -r "s/^(.*)$/- \1\\\\n/" | tr --delete "\n")
+            echo "summary=Only webgpu.yml is allowed to be modified, but the following files were found in the diff:\n$FMT" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
 
       # Report previous step outcome as a GitHub Check for the PR
       - uses: LouisBrunner/checks-action@v2.0.0
         if: always()
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          name: Test XYZ
+          name: "Click 'Details' for more information ->"
           conclusion: ${{ job.status }}
           output: |
             { "summary":"${{ steps.test.outputs.summary }}" }
