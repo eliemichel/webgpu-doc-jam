@@ -3094,7 +3094,7 @@ functions:
 objects:
   - name: adapter
     doc: |
-      This is the Adapter.
+      TODO
     methods:
       - name: get_limits
         doc: |
