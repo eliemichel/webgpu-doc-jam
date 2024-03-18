@@ -20,6 +20,7 @@ jobs:
 
       - id: test
         run: |
+          git branch -a
           git branch main remotes/origin/main
           CHANGED_FILES=$(git diff main HEAD --numstat | cut -f3-)
           if [ "$CHANGED_FILES" = "webgpu.yml" ]
